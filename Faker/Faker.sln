@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32901.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faker", "Faker\Faker.csproj", "{FAFC5251-AAF7-4F3C-AA65-48D46E708936}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FAFC5251-AAF7-4F3C-AA65-48D46E708936}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAFC5251-AAF7-4F3C-AA65-48D46E708936}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAFC5251-AAF7-4F3C-AA65-48D46E708936}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAFC5251-AAF7-4F3C-AA65-48D46E708936}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A2D86A30-CB3A-4EAD-AF07-73A2CA952DA7}
+	EndGlobalSection
+EndGlobal
