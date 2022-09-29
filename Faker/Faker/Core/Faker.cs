@@ -15,14 +15,14 @@ namespace Faker.Core
 
 			var types = AppDomain.CurrentDomain.GetAssemblies()
 				.SelectMany(i => i.GetTypes())
-				.Where(j => typeof(IValueGenerator).IsAssignableFrom(j));
+				.Where(j => typeof(IValueGenerator).IsAssignableFrom(j) && j.IsClass);
 
 			foreach (var type in types)
 			{	
 				var gen = (IValueGenerator?)Activator.CreateInstance(type);
 				if (gen != null)
 				{
-					_valueGenerators.Add(type, gen);
+					_valueGenerators.Add(gen.GeneratedType, gen);
 				}
 			}
 		}
@@ -32,9 +32,15 @@ namespace Faker.Core
             return (T)Create(typeof(T));
         }
 
-        private object Create(Type t)
+        private object Create(Type type)
         {
-			return new object();	
+			GeneratorContext generatorContext = _generatorContext;
+
+			if (_valueGenerators.ContainsKey(type) && _valueGenerators[type].CanGenerate(type))
+			{
+				return _valueGenerators[type].Generate(type, generatorContext);
+			}
+			return null;
         }
     }
 }
