@@ -11,7 +11,9 @@ namespace Faker.Generators
 		
 		public object Generate(Type typeToGenerate, GeneratorContext context)
 		{
-			return context.Random.Next(_minByte, byte.MaxValue);
+			Byte [] buffer = new Byte[1];
+			context.Random.NextBytes(buffer);
+			return buffer[0];
 		}
 
 		public bool CanGenerate(Type type)

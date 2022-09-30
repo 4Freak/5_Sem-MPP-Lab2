@@ -9,7 +9,7 @@ namespace Faker.Generators
 		public Type GeneratedType {get; } = typeof(short);
 		public object Generate(Type typeToGenerate, GeneratorContext context)
 		{
-			return context.Random.Next(_minShort, short.MaxValue);
+			return (short)context.Random.Next(_minShort, short.MaxValue);
 		}
 
 		public bool CanGenerate(Type type)

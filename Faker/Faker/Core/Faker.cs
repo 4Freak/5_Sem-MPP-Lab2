@@ -1,9 +1,10 @@
 ﻿using Faker.Context;
 using Faker.Interface;
+using Faker.Generators;
 
 namespace Faker.Core
 {
-    internal class Faker : IFaker
+    public class Faker : IFaker
     {
 		private readonly  GeneratorContext _generatorContext;
 		private readonly Dictionary<Type, IValueGenerator> _valueGenerators;
@@ -29,18 +30,25 @@ namespace Faker.Core
 		
         public T Create<T>()
         {
-            return (T)Create(typeof(T));
+            return (T)CreateItem(typeof(T));
         }
 
-        private object Create(Type type)
-        {
-			GeneratorContext generatorContext = _generatorContext;
-
+		public object Create(Type type)
+		{
+			return CreateItem(type);
+		}
+		private object CreateItem(Type type)
+		{
 			if (_valueGenerators.ContainsKey(type) && _valueGenerators[type].CanGenerate(type))
 			{
-				return _valueGenerators[type].Generate(type, generatorContext);
+				return _valueGenerators[type].Generate(type, _generatorContext);
 			}
-			return null;
+
+
+			var objectGenerator = new GeneratorObject(this);
+			object item = objectGenerator.CreateObject(type);
+			return objectGenerator.FillObject(item);
+			
         }
     }
 }
