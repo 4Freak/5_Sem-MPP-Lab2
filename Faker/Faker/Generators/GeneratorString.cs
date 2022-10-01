@@ -1,6 +1,4 @@
-﻿using Faker.Context;
-using Faker.Interface;
-using System.Text;
+﻿using System.Text;
 
 namespace Faker.Generators
 {

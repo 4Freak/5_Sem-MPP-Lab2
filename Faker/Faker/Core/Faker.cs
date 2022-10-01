@@ -1,13 +1,12 @@
-﻿using Faker.Context;
-using Faker.Interface;
-using Faker.Generators;
+﻿using Faker.Generators;
 
-namespace Faker.Core
+namespace Faker
 {
-    public class Faker : IFaker
-    {
-		private readonly  GeneratorContext _generatorContext;
+	public class Faker : IFaker
+	{
+		private readonly GeneratorContext _generatorContext;
 		private readonly List<IValueGenerator> _valueGenerators;
+		private readonly CycleDefender _cycleDefender;
 
 		static bool CheckSubType(Type t1, Type t2)
 		{
@@ -18,11 +17,13 @@ namespace Faker.Core
 
 		public Faker()
 		{
+
 			_generatorContext = new GeneratorContext(new Random(), this);
 			_valueGenerators = new List<IValueGenerator>();
+			_cycleDefender = new CycleDefender(4);
 
 			var testTypes = new List<Type>()
-			{ 
+			{
 				typeof(string),
 			};
 
@@ -32,7 +33,7 @@ namespace Faker.Core
 				.ToList();
 
 			foreach (var type in types)
-			{	
+			{
 				var gen = (IValueGenerator?)Activator.CreateInstance(type);
 				if (gen != null)
 				{
@@ -40,11 +41,11 @@ namespace Faker.Core
 				}
 			}
 		}
-		
-        public T Create<T>()
-        {
-            return (T)CreateItem(typeof(T));
-        }
+
+		public T Create<T>()
+		{
+			return (T)CreateItem(typeof(T));
+		}
 
 		public object Create(Type type)
 		{
@@ -59,11 +60,16 @@ namespace Faker.Core
 					return gen.Generate(type, _generatorContext);
 				}
 			}
-
+			
+			if (!_cycleDefender.CheckCycleDependence(type))
+			{
+				return null;
+			}
 			var objectGenerator = new GeneratorObject(this);
 			object item = objectGenerator.CreateObject(type);
+
+			_cycleDefender.CleanCycleDependence();
 			return objectGenerator.FillObject(item);
-			
-        }
-    }
+		}
+	}
 }

@@ -1,6 +1,4 @@
-﻿using Faker.Exeprion;
-using Faker.Interface;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace Faker.Generators
 {

@@ -1,7 +1,4 @@
-﻿using Faker.Context;
-using Faker.Interface;
-
-namespace Faker.Generators
+﻿namespace Faker.Generators
 {
 	internal class GeneratorChar : IValueGenerator
 	{

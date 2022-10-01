@@ -1,7 +1,4 @@
-﻿using Faker.Context;
-using Faker.Interface;
-
-namespace Faker.Generators
+﻿namespace Faker.Generators
 {
 	public class GeneratorBool : IValueGenerator
 	{

@@ -1,3 +1,4 @@
+
 using Faker.Generators;
 using System.Reflection;
 
@@ -21,11 +22,11 @@ namespace UnitTests
 		[TestCase(typeof(short))]
 		[TestCase(typeof(string))]
 		[TestCase(typeof(List<string>))]
+		[TestCase(typeof(List<List<List<string>>>))]
 		[TestCase(typeof(List<TestClassBook>))]
 		public void SimpleTypes(Type type)
 		{
-			// Arrange
-			var faker = new Faker.Core.Faker();
+			var faker = new Faker.Faker();
 
 			// Act
 			var testVar = faker.Create(type);
@@ -40,14 +41,14 @@ namespace UnitTests
 		public void ObjectTest()
 		{
 			// Arrange
-			var faker = new Faker.Core.Faker();
+			var faker = new Faker.Faker();
 			bool result = true;
 
 			// Act
 			var book = faker.Create<TestClassBook>();
 
 			// Assert
-			var fields = book.GetType().GetFields(BindingFlags.Public);
+			var fields = book.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public);
 			foreach (var field in fields)
 			{
 				if (Equals(field.GetValue(book), GeneratorObject.GetDefaultValue(field.FieldType)))
@@ -56,14 +57,6 @@ namespace UnitTests
 				}
 			}
 
-			//var properties = book.GetType().GetProperties(BindingFlags.Public);
-			//foreach (var property in properties)
-			//{
-			//	if (Equals(property.GetValue(book), GeneratorObject.GetDefaultValue(property.PropertyType)))
-			//	{
-			//		result = false;
-			//	}				
-			//}
 			Assert.IsTrue(result);
 
 			Assert.Pass();
@@ -73,7 +66,7 @@ namespace UnitTests
 		public void StructTest()
 		{
 			// Arrange
-			var faker = new Faker.Core.Faker();	
+			var faker = new Faker.Faker();	
 			
 			// Act 
 			TestStruct s = faker.Create<TestStruct>();

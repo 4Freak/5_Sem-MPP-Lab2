@@ -1,11 +1,8 @@
-﻿using Faker.Context;
-using Faker.Interface;
-
-using System.Collections;
+﻿using System.Collections;
 
 namespace Faker.Generators
 {
-	public class GeneratorList : IValueGeneratorGeneric
+	public class GeneratorList : IValueGenerator
 	{
 		public Type GeneratedType { get; } = typeof(IList);
 

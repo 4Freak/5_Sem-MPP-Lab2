@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Faker.Exeprion
+namespace Faker
 {
 	public class FakerException : Exception
 	{
