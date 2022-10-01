@@ -77,6 +77,26 @@ namespace UnitTests
 				Assert.IsFalse(s.intField.Equals(GeneratorObject.GetDefaultValue(s.intField.GetType())));
 				Assert.IsFalse(s.stringField.Equals(GeneratorObject.GetDefaultValue(s.stringField.GetType())));
 			});
+			Assert.Pass();
+		}
+
+		[Test]
+		public void CycleTest()
+		{
+			// Arrange
+			var faker = new Faker.Faker();
+
+			// Act
+
+			var cycleClass = faker.Create<A>();
+
+
+			// Assert 
+			Assert.IsFalse(cycleClass.Equals(GeneratorObject.GetDefaultValue(cycleClass.GetType())));				
+			
+			// Can return false if change CycleDefender._threathold
+			Assert.IsTrue(Equals(cycleClass.b.c.a.b.c.a.b.c.a.b.c.a, GeneratorObject.GetDefaultValue(cycleClass.GetType())));
+			Assert.Pass();
 		}
 	}
 }

@@ -25,7 +25,6 @@ namespace Faker.Generators
 		{
 			var n = nameof(IList);
 			bool result = type.GetInterface(n) != null;
-
 			return result;
 		}
 

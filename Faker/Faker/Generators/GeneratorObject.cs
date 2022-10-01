@@ -45,14 +45,14 @@ namespace Faker.Generators
 				}
 			}
 
-			//var properties = item.GetType().GetProperties();
-			//foreach (var property in properties)
-			//{
-			//	if (Equals(property.GetValue(item), GetDefaultValue(property.PropertyType)))
-			//	{
-			//		property.SetValue(item, _faker.Create(property.PropertyType));
-			//	}				
-			//}
+			var properties = item.GetType().GetProperties();
+			foreach (var property in properties)
+			{
+				if (Equals(property.GetValue(item), GetDefaultValue(property.PropertyType)))
+				{
+					property.SetValue(item, _faker.Create(property.PropertyType));
+				}				
+			}
 			return item;
 		}
 

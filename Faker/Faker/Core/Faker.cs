@@ -67,9 +67,10 @@ namespace Faker
 			}
 			var objectGenerator = new GeneratorObject(this);
 			object item = objectGenerator.CreateObject(type);
+			item = objectGenerator.FillObject(item);
 
 			_cycleDefender.CleanCycleDependence();
-			return objectGenerator.FillObject(item);
+			return item;
 		}
 	}
 }

@@ -22,12 +22,12 @@
 			}
 			foreach (var generatedType in _generatedTypes)
 			{
-				if (generatedType.Value < _threathold)
+				if (generatedType.Value > _threathold)
 				{
-					return true;
+					return false;
 				}
 			}
-			return false;
+			return true;
 		}
 		
 		public void CleanCycleDependence()
