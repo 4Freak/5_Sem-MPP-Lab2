@@ -5,6 +5,6 @@
 		
 		bool CheckCycleDependence(Type type);
 
-		void CleanCycleDependence();
+		void CleanCycleDependence(Type type);
 	}
 }

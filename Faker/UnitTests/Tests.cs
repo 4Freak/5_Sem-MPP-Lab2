@@ -96,6 +96,7 @@ namespace UnitTests
 			
 			// Can return false if change CycleDefender._threathold
 			Assert.IsTrue(Equals(cycleClass.b.c.a.b.c.a.b.c.a.b.c.a, GeneratorObject.GetDefaultValue(cycleClass.GetType())));
+			Assert.IsNotNull(cycleClass.b2);
 			Assert.Pass();
 		}
 	}

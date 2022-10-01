@@ -20,21 +20,16 @@
 			{
 				_generatedTypes.Add(type, 1);
 			}
-			foreach (var generatedType in _generatedTypes)
+			if (_generatedTypes[type] > _threathold)
 			{
-				if (generatedType.Value > _threathold)
-				{
-					return false;
-				}
+				return false;
 			}
 			return true;
 		}
 		
-		public void CleanCycleDependence()
+		public void CleanCycleDependence(Type type)
 		{
-			_generatedTypes.Clear();
+			_generatedTypes[type]--;  
 		}
 	}
-
-	public class FuckAttritute : Attribute {  };
 }

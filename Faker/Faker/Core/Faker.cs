@@ -22,11 +22,7 @@ namespace Faker
 			_valueGenerators = new List<IValueGenerator>();
 			_cycleDefender = new CycleDefender(4);
 
-			var testTypes = new List<Type>()
-			{
-				typeof(string),
-			};
-
+			// If geheric type get generic type difinition
 			var types = AppDomain.CurrentDomain.GetAssemblies()
 				.SelectMany(i => i.GetTypes())
 				.Where(j => typeof(IValueGenerator).IsAssignableFrom(j) && !j.IsInterface && CheckSubType(j, typeof(IValueGenerator)))
@@ -69,7 +65,7 @@ namespace Faker
 			object item = objectGenerator.CreateObject(type);
 			item = objectGenerator.FillObject(item);
 
-			_cycleDefender.CleanCycleDependence();
+			_cycleDefender.CleanCycleDependence(type);
 			return item;
 		}
 	}

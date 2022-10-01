@@ -19,12 +19,17 @@ namespace Faker.Generators
 			
 			foreach (var constructor in constructors)
 			{
-                    var arguments = constructor.GetParameters()
+				try
+				{
+					var arguments = constructor.GetParameters()
                         .Select(i => i.ParameterType)
 						.Select(_faker.Create)
                         .ToArray();
 
 					return constructor.Invoke(arguments);
+				}
+				catch
+				{}
 			}
 
 			if (type.IsValueType)
@@ -45,7 +50,7 @@ namespace Faker.Generators
 				}
 			}
 
-			var properties = item.GetType().GetProperties();
+			var properties = item.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
 			foreach (var property in properties)
 			{
 				if (Equals(property.GetValue(item), GetDefaultValue(property.PropertyType)))

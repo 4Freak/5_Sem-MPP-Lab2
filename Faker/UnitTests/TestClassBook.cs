@@ -2,6 +2,8 @@
 {
 	public class TestClassBook
 	{
+
+		public const int I = 10;
 		public bool isRead; 
 		public byte authorYears;
 		public char firstLetter;
@@ -29,6 +31,7 @@
 	class A
 	{
 		public B b { get; set; }
+		public B b2 { get; set; }
 	}
 
 	class B
