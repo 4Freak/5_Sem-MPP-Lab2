@@ -7,23 +7,36 @@ namespace Faker.Core
     public class Faker : IFaker
     {
 		private readonly  GeneratorContext _generatorContext;
-		private readonly Dictionary<Type, IValueGenerator> _valueGenerators;
+		private readonly List<IValueGenerator> _valueGenerators;
+
+		static bool CheckSubType(Type t1, Type t2)
+		{
+			bool result = t1.GetInterface(t2.Name) != null;
+
+			return result;
+		}
 
 		public Faker()
 		{
 			_generatorContext = new GeneratorContext(new Random(), this);
-			_valueGenerators = new Dictionary<Type, IValueGenerator>();
+			_valueGenerators = new List<IValueGenerator>();
+
+			var testTypes = new List<Type>()
+			{ 
+				typeof(string),
+			};
 
 			var types = AppDomain.CurrentDomain.GetAssemblies()
 				.SelectMany(i => i.GetTypes())
-				.Where(j => typeof(IValueGenerator).IsAssignableFrom(j) && j.IsClass);
+				.Where(j => typeof(IValueGenerator).IsAssignableFrom(j) && !j.IsInterface && CheckSubType(j, typeof(IValueGenerator)))
+				.ToList();
 
 			foreach (var type in types)
 			{	
 				var gen = (IValueGenerator?)Activator.CreateInstance(type);
 				if (gen != null)
 				{
-					_valueGenerators.Add(gen.GeneratedType, gen);
+					_valueGenerators.Add(gen);
 				}
 			}
 		}
@@ -39,11 +52,13 @@ namespace Faker.Core
 		}
 		private object CreateItem(Type type)
 		{
-			if (_valueGenerators.ContainsKey(type) && _valueGenerators[type].CanGenerate(type))
+			foreach (var gen in _valueGenerators)
 			{
-				return _valueGenerators[type].Generate(type, _generatorContext);
+				if (gen.CanGenerate(type))
+				{
+					return gen.Generate(type, _generatorContext);
+				}
 			}
-
 
 			var objectGenerator = new GeneratorObject(this);
 			object item = objectGenerator.CreateObject(type);

@@ -3,7 +3,7 @@ using Faker.Interface;
 
 namespace Faker.Generators
 {
-	internal class GeneratorsInt : IValueGenerator
+	internal class GeneratorInt : IValueGenerator
 	{
 		private const int _minInt = 1;
 	    public Type GeneratedType {get; } = typeof(int);

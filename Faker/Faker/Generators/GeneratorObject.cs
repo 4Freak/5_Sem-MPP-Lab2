@@ -15,7 +15,7 @@ namespace Faker.Generators
 
 		public object CreateObject(Type type)
 		{
-			var constructors = type.GetConstructors(BindingFlags.Public)
+			var constructors = type.GetConstructors(BindingFlags.Instance | BindingFlags.Public)
 				.OrderByDescending(j => j.GetParameters().Length)
 				.ToList();
 			
@@ -38,28 +38,27 @@ namespace Faker.Generators
 		}
 		public object FillObject(object item)
 		{
-			var fields = item.GetType().GetFields(BindingFlags.Public);
+			var fields = item.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public);
 			foreach (var field in fields)
 			{
-				if (Equals(field.GetValue(item), GetDefaultValue(item.GetType())))
+				if (Equals(field.GetValue(item), GetDefaultValue(field.FieldType)))
 				{
-					field.SetValue(item, GetDefaultValue(item.GetType()));
+					field.SetValue(item, _faker.Create(field.FieldType));
 				}
 			}
 
-			var properties = item.GetType().GetProperties(BindingFlags.Public);
-			foreach (var property in properties)
-			{
-				if (Equals(property.GetValue(item), GetDefaultValue(item.GetType())))
-				{
-					property.SetValue(item, GetDefaultValue(item.GetType()));
-				}
-				
-			}
+			//var properties = item.GetType().GetProperties();
+			//foreach (var property in properties)
+			//{
+			//	if (Equals(property.GetValue(item), GetDefaultValue(property.PropertyType)))
+			//	{
+			//		property.SetValue(item, _faker.Create(property.PropertyType));
+			//	}				
+			//}
 			return item;
 		}
 
-		private static object GetDefaultValue(Type type)
+		public static object GetDefaultValue(Type type)
 		{
 			if (type.IsValueType)
 			{

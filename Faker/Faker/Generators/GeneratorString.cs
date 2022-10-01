@@ -12,7 +12,7 @@ namespace Faker.Generators
 		private const int _minVal = (int)'a';
 		private const int _maxVal = (int)'z';
 
-		public Type GeneratedType {get; } = typeof(String);
+		public Type GeneratedType {get; } = typeof(string);
 		
 		public object Generate(Type typeToGenerate, GeneratorContext context)
 		{
